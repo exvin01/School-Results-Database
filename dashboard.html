@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Results - Student Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+   .results-box{max-width:700px;margin:40px auto;background:white;padding:30px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+    table{width:100%;border-collapse:collapse;margin-top:20px}
+    th,td{border:1px solid #ddd;padding:12px;text-align:center}
+    th{background:#2563eb;color:white}
+   .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:20px 0}
+   .logout{float:right;background:#dc2626;color:white;border:none;padding:8px 16px;border-radius:5px;cursor:pointer}
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <div class="logo">Student Results Portal</div>
+      <button class="logout" onclick="logout()">Logout</button>
+    </nav>
+  </header>
+
+  <div class="results-box">
+    <h2 id="welcome">Loading results...</h2>
+
+    <div class="info-grid" id="studentInfo" style="display:none">
+      <div><b>Student Number:</b> <span id="sid"></span></div>
+      <div><b>Name:</b> <span id="sname"></span></div>
+      <div><b>Class:</b> <span id="sclass"></span></div>
+      <div><b>Position:</b> <span id="spos"></span> out of <span id="outof"></span></div>
+    </div>
+
+    <table id="resultsTable" style="display:none">
+      <thead>
+        <tr><th>Subject</th><th>Score</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <h3 id="totalScore" style="text-align:right;margin-top:15px;display:none"></h3>
+    <p id="noResults" style="text-align:center;color:red"></p>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token');
+    if(!token) window.location.href = '/index.html';
+
+    fetch('/output', {
+      headers: {Authorization: 'Bearer ' + token}
+    })
+   .then(res => res.json())
+   .then(data => {
+      if(!data.success) {
+        document.getElementById('noResults').innerText = data.message || 'No results found';
+        return;
+      }
+
+      const result = data.stdresults[0]; // show latest result
+      document.getElementById('welcome').innerText = 'Welcome, ' + data.name;
+      document.getElementById('sid').innerText = result.stdnumber;
+      document.getElementById('sname').innerText = result.fullname;
+      document.getElementById('sclass').innerText = result.Class;
+      document.getElementById('spos').innerText = result.position;
+      document.getElementById('outof').innerText = result.outof;
+      document.getElementById('totalScore').innerText = 'Total Score: ' + result.total;
+
+      const tbody = document.querySelector('#resultsTable tbody');
+      tbody.innerHTML = `
+        <tr><td>Mathematics</td><td>${result.maths}</td></tr>
+        <tr><td>English</td><td>${result.english}</td></tr>
+      `;
+
+      document.getElementById('studentInfo').style.display = 'grid';
+      document.getElementById('resultsTable').style.display = 'table';
+      document.getElementById('totalScore').style.display = 'block';
+    })
+   .catch(err => {
+      document.getElementById('noResults').innerText = 'Error loading results. Please login again.';
+    });
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = '/index.html';
+    }
+  </script>
+</body>
+</html>

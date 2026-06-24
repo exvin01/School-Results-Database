@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Login to your Login Results Portal account">
+  <title>Login - Student results Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <div class="logo">Student Results Portal</div>
+    </nav>
+  </header>
+
+  <div class="form-container">
+    <h2 style="text-align: center; margin-bottom: 30px;">Enter Student Credentials</h2>
+    <form id="loginForm" action="/login" method="POST">
+      <div class="form-group">
+        <label>Student Number</label>
+        <input type="text" name="stdnumber" placeholder="Enter your student ID" required>
+        <div class="error"></div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="stdpass" placeholder="Enter password" required>
+        <div class="error"></div>
+      </div>
+      <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">View Results</button>
+    </form>
+    <p style="text-align: center; margin-top: 20px;">
+      Don't Have An Account? <a href="signup.html
+      ">Sigup here</a>
+    </p>
+    <p style="text-align: center; margin-top: 20px;">
+      View adminstrators Page? <a href="teachers.html">View here</a>
+    </p>
+  </div>
+  <script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData);
+
+  const res = await fetch('/login', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+  if(result.success) {
+    localStorage.setItem('token', result.token);
+    localStorage.setItem('name', result.name);
+    window.location.href = '/dashboard';
+  } else {
+    document.querySelector('.error').innerText = result.message || 'Login failed';
+  }
+});
+</script>
+</body>
+</html>

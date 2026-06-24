@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create your Login Portal account">
+  <title>Sign Up - Login Student Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <div class="logo">SignUp Student Portal</div>
+  </header>
+
+  <div class="form-container">
+    <h2 style="text-align: center; margin-bottom: 30px;">Create Account</h2>
+    <form id="signupForm" action="/signup" method="POST">
+      <div class="form-group">
+        <label>Student Number</label>
+        <input type="text" name="stdnumber" placeholder="Enter your student ID" required>
+        <div class="error"></div>
+      </div>
+
+      <div class="form-group">
+        <label>Student Name</label>
+        <input type="text" name="stdname" placeholder="Enter Fullname" required>
+        <div class="error"></div>
+      </div>
+      
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="stdpass" placeholder="Min 6 characters" required>
+        <div class="error"></div>
+      </div>
+      <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">Sign Up</button>
+    </form>
+    <p style="text-align: center; margin-top: 20px;">
+      Already have an account? <a href="index.html">Login here</a>
+    </p>
+  </div>
+</body>
+</html>

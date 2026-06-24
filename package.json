@@ -1,0 +1,25 @@
+{
+  "name": "SCHOOL-WEBSITE",
+  "version": "1.0.0",
+  "description": "practice school website",
+  "main": "backend.js",
+  "scripts": {
+    "start": "node backend.js",
+    "dev": "nodemon backend.js"
+  },
+  "keywords": ["express", "mongodb", "auth"],
+  "author": "eng-exvin",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
